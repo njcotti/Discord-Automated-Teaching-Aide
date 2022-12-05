@@ -16,7 +16,9 @@ class Bot:
         return token
 
     def run_bot(self, token):
-        intent_arg = discord.Intents.all()
+        intent_arg = discord.Intents.default()
+        intent_arg.message_content = True
+        intent_arg.members = True
         bot = commands.Bot(command_prefix="!", intents=intent_arg)
 
         @bot.event
@@ -33,6 +35,10 @@ class Bot:
 
         @bot.command()
         async def echo(ctx, message):
+            """
+                "You're copying me!" "nuh uh"
+                This command repeats your message back to you
+            """
             await ctx.send(message)
 
         bot.run(token)
