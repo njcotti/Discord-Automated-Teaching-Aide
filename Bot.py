@@ -36,29 +36,10 @@ class Bot:
         async def on_ready():
             # send it to another class, which implements
             print(f'{bot.user} has connected to the server!')
-            professor_flag: bool = True
-            student_flag: bool = True
-            guild = bot.guilds[0]
-            if guild.name == "Cold_Foam's server":
-                for role in await guild.fetch_roles():
-                    if role.name != "Professor":
-                        # need to create professor role just once, maybe set a boolean flag to true and make role l8r
-                        professor_flag = professor_flag and True
-                    else:
-                        professor_flag = professor_flag and False
-                    if role.name != "Student":
-                        # set boolean flag for student
-                        student_flag = student_flag and True
-                    else:
-                        student_flag = student_flag and False
-                if professor_flag:
-                    # make professor flag and assign owner, otherwise already assigned
-                    self.professor = await guild.create_role(name="Professor",
-                                                             colour=discord.Colour.dark_gold())
-                    await guild.owner.add_roles(self.professor)
-                if student_flag:
-                    # make student role
-                    self.student = await guild.create_role(name="Student", colour=discord.Colour.dark_red())
+            if bot.guilds[0].name == "Cold_Foam's server":
+                self.professor = await bot.guilds[0].create_role(name="Professor", colour=discord.Colour.dark_gold())
+                self.student = await bot.guilds[0].create_role(name="Student", colour=discord.Colour.dark_red())
+                await bot.guilds[0].owner.add_roles(self.professor)
                 self._interface.sign_up("justin", "abc", 123)
 
         @bot.event
